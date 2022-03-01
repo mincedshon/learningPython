@@ -1,4 +1,4 @@
-My coding journey!\
+My coding journey!\\
 Courses I have taken:\
 **2022 Complete Python Bootcamp From Zero to Hero in Python**\
 by Jose Portilla\
