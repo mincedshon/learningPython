@@ -1,6 +1,5 @@
 m_repeat = True
 changeName = True
-print(changeName)
 name_list = []
 assign = {}
 grid = []
