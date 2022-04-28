@@ -43,7 +43,7 @@ def start_order():
                 turn = 1
                 break
 
-#Choosing own symbol X/O
+#Assigning X/O to player
 def symbol_choice():
     repeat = True
     answer = ["X","x","O","o"]
@@ -76,21 +76,29 @@ def show_grid():
 
 def replace():
     repeat = True
+    global turn
 
     while repeat:
+        show_grid()
         x = input(f"{name_list[turn]}'s turn. Place your {assign[name_list[turn]]}. (1-9): \n")
+        print("\n"*50)
         if x.isdigit() == False:
             print("Please enter numbers!")
             continue
         if 1 <= int(x) <= 9:
             if grid[int(x)-1] == " ":
                 grid[int(x)-1] = assign[name_list[turn]]
+                if turn == 0:
+                    turn = 1
+                else:
+                    turn = 0
                 repeat = False
             else:
                 print("There is already a symbol on this spot!")
         else:
             print("The number must be within the range 1-9!")
 
+#Win conditions
 def win_cond():
     if grid[0] != " " and grid[0] == grid[3] and grid[3] == grid[6]:
         return True
@@ -111,9 +119,38 @@ def win_cond():
     else:
         return False
 
+def reset():
+    global name_list
+    global assign
+    global grid
+    global turn
+    name_list = []
+    assign = {}
+    grid = []
+    turn = 0
+
+#Win message
+def win_msg():
+    repeat = True
+    answer = ["Y","y","N","n"]
+    print(f"{name_list[turn]} won!")
+
+    while repeat:
+        x = input("Play again? (Y/N): \n")
+        if x not in answer:
+            print("Sorry, I do not understand you.")
+        elif x == Y or x == y:
+            resetName = input("Continue with the same names?: \n")
+            if resetName not in answer:
+                print("Sorry, I do not understand you.")
+            elif resetName == Y or x == y:
+                reset()
+            else:
+                reset()
+
 
 get_names()
 start_order()
 symbol_choice()
-replace()
-show_grid()
+while True:
+    replace()
