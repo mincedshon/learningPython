@@ -5,6 +5,7 @@ turn = 0
 for i in range(9):
     grid.append(" ")
 
+#Getting player's names
 def get_names():
     x = 1
     repeat = True
@@ -23,6 +24,7 @@ def get_names():
                 pass
             x += 1
 
+#Finding who starts first
 def start_order():
     global turn
     repeat = True
@@ -41,6 +43,7 @@ def start_order():
                 turn = 1
                 break
 
+#Choosing own symbol X/O
 def symbol_choice():
     repeat = True
     answer = ["X","x","O","o"]
@@ -63,6 +66,7 @@ def symbol_choice():
     global assign
     assign = dict(zip(name_list,symbol))
 
+#Tic tac toe display grid
 def show_grid():
     print(" "+f"{grid[6]}"+" | "+f"{grid[7]}"+" | "+f"{grid[8]}")
     print("-"*11)
@@ -87,12 +91,29 @@ def replace():
         else:
             print("The number must be within the range 1-9!")
 
-
-    show_grid()
-
+def win_cond():
+    if grid[0] != " " and grid[0] == grid[3] and grid[3] == grid[6]:
+        return True
+    if grid[1] != " " and grid[1] == grid[4] and grid[4] == grid[7]:
+        return True
+    if grid[2] != " " and grid[2] == grid[5] and grid[5] == grid[8]:
+        return True
+    if grid[0] != " " and grid[0] == grid[1] and grid[1] == grid[2]:
+        return True
+    if grid[3] != " " and grid[3] == grid[4] and grid[4] == grid[5]:
+        return True
+    if grid[6] != " " and grid[6] == grid[7] and grid[7] == grid[8]:
+        return True
+    if grid[0] != " " and grid[0] == grid[4] and grid[4] == grid[8]:
+        return True
+    if grid[6] != " " and grid[6] == grid[4] and grid[4] == grid[2]:
+        return True
+    else:
+        return False
 
 
 get_names()
 start_order()
 symbol_choice()
 replace()
+show_grid()
