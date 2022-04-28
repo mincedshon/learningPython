@@ -1,6 +1,7 @@
 name_list = []
 assign = {}
 grid = []
+turn = 0
 for i in range(9):
     grid.append(" ")
 
@@ -23,6 +24,7 @@ def get_names():
             x += 1
 
 def start_order():
+    global turn
     repeat = True
     answer = ["Y","y","N","n"]
 
@@ -32,10 +34,12 @@ def start_order():
         if start not in answer:
             print("Sorry, I do not understand you.")
         else:
-            if start == "Y" or "y":
-                return True
+            if start == "Y" or start == "y":
+                turn = 0
+                break
             else:
-                return False
+                turn = 1
+                break
 
 def symbol_choice():
     repeat = True
@@ -47,7 +51,7 @@ def symbol_choice():
         if start not in answer:
             print("Sorry, I do not understand you.")
         else:
-            if start == "X" or "x":
+            if start == "X" or start == "x":
                 #assign X to namelist[0], O to namelist[1]
                 symbol = ["X","O"]
                 repeat = False
@@ -66,8 +70,29 @@ def show_grid():
     print("-"*11)
     print(" "+f"{grid[0]}"+" | "+f"{grid[1]}"+" | "+f"{grid[2]}")
 
+def replace():
+    repeat = True
+
+    while repeat:
+        x = input(f"{name_list[turn]}'s turn. Place your {assign[name_list[turn]]}. (1-9): \n")
+        if x.isdigit() == False:
+            print("Please enter numbers!")
+            continue
+        if 1 <= int(x) <= 9:
+            if grid[int(x)-1] == " ":
+                grid[int(x)-1] = assign[name_list[turn]]
+                repeat = False
+            else:
+                print("There is already a symbol on this spot!")
+        else:
+            print("The number must be within the range 1-9!")
+
+
+    show_grid()
+
+
 
 get_names()
 start_order()
 symbol_choice()
-print(assign)
+replace()
