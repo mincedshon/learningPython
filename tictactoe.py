@@ -1,3 +1,6 @@
+m_repeat = True
+changeName = True
+print(changeName)
 name_list = []
 assign = {}
 grid = []
@@ -37,10 +40,10 @@ def start_order():
             print("Sorry, I do not understand you.")
         else:
             if start == "Y" or start == "y":
-                turn = 0
+                turn = 1
                 break
             else:
-                turn = 1
+                turn = 0
                 break
 
 #Assigning X/O to player
@@ -76,10 +79,10 @@ def show_grid():
 
 def replace():
     repeat = True
-    global turn
 
     while repeat:
         show_grid()
+        #Choose respective symbol from dictionary
         x = input(f"{name_list[turn]}'s turn. Place your {assign[name_list[turn]]}. (1-9): \n")
         print("\n"*50)
         if x.isdigit() == False:
@@ -88,10 +91,6 @@ def replace():
         if 1 <= int(x) <= 9:
             if grid[int(x)-1] == " ":
                 grid[int(x)-1] = assign[name_list[turn]]
-                if turn == 0:
-                    turn = 1
-                else:
-                    turn = 0
                 repeat = False
             else:
                 print("There is already a symbol on this spot!")
@@ -100,6 +99,7 @@ def replace():
 
 #Win conditions
 def win_cond():
+    global turn
     if grid[0] != " " and grid[0] == grid[3] and grid[3] == grid[6]:
         return True
     if grid[1] != " " and grid[1] == grid[4] and grid[4] == grid[7]:
@@ -117,6 +117,10 @@ def win_cond():
     if grid[6] != " " and grid[6] == grid[4] and grid[4] == grid[2]:
         return True
     else:
+        if turn == 0:
+            turn = 1
+        else:
+            turn = 0
         return False
 
 def reset():
@@ -124,33 +128,53 @@ def reset():
     global assign
     global grid
     global turn
-    name_list = []
+
     assign = {}
     grid = []
     turn = 0
+    for i in range(9):
+        grid.append(" ")
+    if changeName == True:
+        name_list = []
+    else:
+        pass
 
 #Win message
 def win_msg():
+    global changeName
+    global m_repeat
     repeat = True
     answer = ["Y","y","N","n"]
     print(f"{name_list[turn]} won!")
 
     while repeat:
         x = input("Play again? (Y/N): \n")
+        print("\n"*50)
         if x not in answer:
             print("Sorry, I do not understand you.")
-        elif x == Y or x == y:
-            resetName = input("Continue with the same names?: \n")
-            if resetName not in answer:
+        elif x == "Y" or x == "y":
+            n = input("Continue with the same names? (Y/N): \n")
+            print("\n"*50)
+            if n not in answer:
                 print("Sorry, I do not understand you.")
-            elif resetName == Y or x == y:
-                reset()
+            elif n == "Y" or n == "y":
+                changeName = False
+                break
             else:
-                reset()
+                changeName = True
+                break
+        else:
+            m_repeat = False
+            print("Thank you for playing!")
+            break
 
-
-get_names()
-start_order()
-symbol_choice()
-while True:
-    replace()
+while m_repeat:
+    if changeName:
+        get_names()
+    start_order()
+    symbol_choice()
+    while win_cond() is False:
+        replace()
+    else:
+        win_msg()
+        reset()
