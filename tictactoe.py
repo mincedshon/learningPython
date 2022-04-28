@@ -100,21 +100,25 @@ def replace():
 def win_cond():
     global turn
     if grid[0] != " " and grid[0] == grid[3] and grid[3] == grid[6]:
-        return True
+        return "win"
     if grid[1] != " " and grid[1] == grid[4] and grid[4] == grid[7]:
-        return True
+        return "win"
     if grid[2] != " " and grid[2] == grid[5] and grid[5] == grid[8]:
-        return True
+        return "win"
     if grid[0] != " " and grid[0] == grid[1] and grid[1] == grid[2]:
-        return True
+        return "win"
     if grid[3] != " " and grid[3] == grid[4] and grid[4] == grid[5]:
-        return True
+        return "win"
     if grid[6] != " " and grid[6] == grid[7] and grid[7] == grid[8]:
-        return True
+        return "win"
     if grid[0] != " " and grid[0] == grid[4] and grid[4] == grid[8]:
-        return True
+        return "win"
     if grid[6] != " " and grid[6] == grid[4] and grid[4] == grid[2]:
-        return True
+        return "win"
+    elif " " not in grid:
+        return "draw"
+
+
     else:
         if turn == 0:
             turn = 1
@@ -144,8 +148,10 @@ def win_msg():
     global m_repeat
     repeat = True
     answer = ["Y","y","N","n"]
-    print(f"{name_list[turn]} won!")
-
+    if win_cond() == "win":
+        print(f"{name_list[turn]} won!")
+    else:
+        print("It's a draw!")
     while repeat:
         x = input("Play again? (Y/N): \n")
         print("\n"*50)
@@ -172,7 +178,7 @@ while m_repeat:
         get_names()
     start_order()
     symbol_choice()
-    while win_cond() is False:
+    while win_cond() == False:
         replace()
     else:
         win_msg()
