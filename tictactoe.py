@@ -1,6 +1,8 @@
 name_list = []
-symbol = []
 assign = {}
+grid = []
+for i in range(9):
+    grid.append(" ")
 
 def get_names():
     x = 1
@@ -55,14 +57,17 @@ def symbol_choice():
                 symbol = ["O","X"]
                 repeat = False
     global assign
-    assign = zip(name_list,symbol)
+    assign = dict(zip(name_list,symbol))
 
-
-
-
+def show_grid():
+    print(" "+f"{grid[6]}"+" | "+f"{grid[7]}"+" | "+f"{grid[8]}")
+    print("-"*11)
+    print(" "+f"{grid[3]}"+" | "+f"{grid[4]}"+" | "+f"{grid[5]}")
+    print("-"*11)
+    print(" "+f"{grid[0]}"+" | "+f"{grid[1]}"+" | "+f"{grid[2]}")
 
 
 get_names()
 start_order()
 symbol_choice()
-print(dict(assign))
+print(assign)
